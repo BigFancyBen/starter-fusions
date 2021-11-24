@@ -33,23 +33,36 @@ function Pokeballs(props){
   const [starter1Showing, setStarter1Showing] = useState(false);
   const [starter2Showing, setStarter2Showing] = useState(false);
   const [starter3Showing, setStarter3Showing] = useState(false);
-  
+  const [audio1, setAudio1] = useState(null);
+  const [audio2, setAudio2] = useState(null);
+  const [audio3, setAudio3] = useState(null);
+
   useEffect(() => {
     setMyStarters(getStarterGroup());
   }, [])
 
+  useEffect(() => {
+    if (myStarters.length === 0){return}
+    setAudio1(new Audio(`./fused/${myStarters[0].pkmn1}/${myStarters[0].pkmn1}.${myStarters[0].pkmn2}.mp3`));
+    setAudio2(new Audio(`./fused/${myStarters[1].pkmn1}/${myStarters[1].pkmn1}.${myStarters[1].pkmn2}.mp3`));
+    setAudio3(new Audio(`./fused/${myStarters[2].pkmn1}/${myStarters[2].pkmn1}.${myStarters[2].pkmn2}.mp3`));
+  }, [myStarters])
+
   function toggleStarters(selection){
     if(selection === 1){
+      audio1.play();
       setStarter1Showing(true);
       setStarter2Showing(false);
       setStarter3Showing(false);
     }
     if(selection === 2){
+      audio2.play();
       setStarter1Showing(false);
       setStarter2Showing(true);
       setStarter3Showing(false);
     }
     if(selection === 3){
+      audio3.play();
       setStarter1Showing(false);
       setStarter2Showing(false);
       setStarter3Showing(true);

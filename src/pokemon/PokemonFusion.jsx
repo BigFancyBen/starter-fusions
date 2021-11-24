@@ -26,6 +26,7 @@ const PokemonName = styled.div`
 `;
 
 function PokemonFusion(props){
+
   return(
     <PokemonDiv >
       <PokemonName>{getFusionName(props.pkmn1, props.pkmn2)}</PokemonName>

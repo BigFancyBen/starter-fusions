@@ -2,6 +2,8 @@ import './App.css';
 import styled from 'styled-components';
 import Pokeballs from './pokemon/Pokeballs';
 import Oakcam from './oakcam/Oakcam'
+import Intro from './intro/Intro';
+import './images/oakslab.png'
 
 const PokemonOuter = styled.div`
   display: flex;
@@ -32,9 +34,10 @@ const PokemonOuter = styled.div`
 function App() {
   return (
     <PokemonOuter className="App">
+      <Intro />
       <Oakcam />
       <Pokeballs />
-      <div className="bg"><img src="public/images/oakslab.png" alt="" /></div>
+      <div className="bg"><img src="/images/oakslab.png" alt="" /></div>
     </PokemonOuter>
   );
 }
