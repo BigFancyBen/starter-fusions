@@ -30,11 +30,10 @@ const PokemonOuter = styled.div`
     }
   }
 `;
-
+//<Intro />
 function App() {
   return (
     <PokemonOuter className="App">
-      <Intro />
       <Oakcam />
       <Pokeballs />
       <div className="bg"><img src="/images/oakslab.png" alt="" /></div>

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import PokemonFusion from './PokemonFusion';
-import { getStarterGroup } from './FusionHelpers';
+import { getUniqueStarters } from './FusionHelpers';
 
 const ClicksOuter = styled.div`
   position: absolute;
@@ -38,7 +38,7 @@ function Pokeballs(props){
   const [audio3, setAudio3] = useState(null);
 
   useEffect(() => {
-    setMyStarters(getStarterGroup());
+    setMyStarters(getUniqueStarters());
   }, [])
 
   useEffect(() => {

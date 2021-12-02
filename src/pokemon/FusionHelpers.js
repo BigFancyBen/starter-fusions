@@ -5,6 +5,7 @@ const suffixes = ["basaur","ysaur","usaur","mander","meleon","izard","tle","tort
 
 const starters = [1,4,7,10,13,16,19,21,23,25,27,29,32,35,37,39,41,43,46,48,50,52,54,56,58,60,63,66,69,72,74,77,79,81,83,84,86,88,90,92,96,97,98,100,102,104,106,107,108,109,111,113,114,115,116,118,120,122,123,124,125,126,127,128,129,131,132,133,137,138,140,143,147];
 const normal = [1,4,7];
+const strictStarters =[1,4,7,10,13,16,19,21,23,25,27,29,32,35,37,39,41,43,46,48,50,52,54,56,58,60,63,66,69,72,74,77,79,81,86,88,90,92,96,98,100,104,109,113,116,118,120,122,129,132,133,138,140,147];
 
 const typeColors=[
   {"type": "Normal", "color":"#A8A878"},
@@ -16,7 +17,7 @@ const typeColors=[
   {"type": "Fighting", "color":"#C03028"},
   {"type": "Poison", "color":"#A040A0"},
   {"type": "Ground", "color":"#E0C068"},
-  {"type": "Flying", "color":"#A890F0"},
+  {"type": "Flying", "color":"#A890F0"}, 
   {"type": "Psychic", "color":"#F85888"},
   {"type": "Bug", "color":"#A8B820"},
   {"type": "Rock", "color":"#B8A038"},
@@ -53,6 +54,9 @@ function getRandomPokemonIndex(type){
   if(type==="normal"){
     return normal[Math.floor(Math.random() * normal.length)];
   }
+  if(type==="strictStarters"){
+    return strictStarters[Math.floor(Math.random() * strictStarters.length)];
+  }
   return Math.floor(Math.random()*151)+1;
 }
 
@@ -60,8 +64,25 @@ function getStarterGroup(){
   let starterIDs = [];
   for(let i = 0; i <3; i++){
     let pokemon ={};
-    pokemon.pkmn1 =getRandomPokemonIndex("starter");
-    pokemon.pkmn2 = getRandomPokemonIndex();
+    pokemon.pkmn1 =getRandomPokemonIndex("strictStarters");
+    pokemon.pkmn2 = getRandomPokemonIndex("strictStarters");
+    starterIDs.push(pokemon);
+  }
+  return starterIDs;
+}
+
+function getUniqueStarters(){
+  let starterIDs = [];
+  let starterOptions = strictStarters;
+  for(let i = 0; i <3; i++){
+    let pokemon ={};
+    const starter1 =Math.floor(Math.random() * starterOptions.length);
+    pokemon.pkmn1 =starterOptions[starter1];
+    starterOptions.splice(starter1, 1);
+
+    const starter2 =Math.floor(Math.random() * starterOptions.length);
+    pokemon.pkmn2 =starterOptions[starter2];
+    starterOptions.splice(starter2, 1);
     starterIDs.push(pokemon);
   }
   return starterIDs;
@@ -86,6 +107,36 @@ function getFusionTypes(pkmn1, pkmn2){
   }
 }
 
+function betterFusionTypes(pkmn1, pkmn2){
+  const pokemon1Types = pokedex[pkmn1].type;
+  const pokemon2Types = pokedex[pkmn2].type;
+  console.log(pokemon1Types, pokemon2Types);
+  const pokemonTypes = pokemon2Types.concat(pokemon1Types);
+  //if both pokemon have 1 type return those two types (without dupes)
+  //if the body (pkmn1) has flying its x - flying
+  //normal is recessive, it only exists if its the only type, always drop
+  //pkmn2 is "dominate" in cases of of shared types or recesissive
+  //['Bug', 'Grass'] ['Bug', 'Poison'] = Poison Bug
+  if(pokemon1Types.length === 1 && pokemon2Types.length === 1){
+    return findColor(pokemonTypes);
+  } else {
+    let temp1 = pokemon1Types;
+    let temp2 = pokemon2Types;
+    const shared = temp1.some(r=> temp2.includes(r));
+    console.log('shared', shared);
+    if(pokemon1Types.length > 1){
+      temp1 = pokemon1Types.filter(e => e !== 'Normal')
+      if (temp1.includes('Flying')){
+        temp1[0] = 'Flying';
+      }
+    }
+    if(pokemon2Types.length > 1){
+      temp2 = pokemon2Types.filter(e => e !== 'Normal')
+    }
+    return findColor([temp2[0], temp1[0]]);
+  }
+}
+
 function findColor(typesArr){
   if (typesArr.length === 1){
     return [typeColors.find(obj => obj.type === typesArr[0])];
@@ -99,5 +150,5 @@ function findColor(typesArr){
   }
 }
 
-export {getRandomPokemonIndex, getFusionName, getStarterGroup, getFusionTypes};
+export {getRandomPokemonIndex, getFusionName, getStarterGroup, getUniqueStarters, getFusionTypes, betterFusionTypes};
 

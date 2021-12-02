@@ -7,10 +7,17 @@
   font-family: "Pokemon GB" !important;
   color: black !important;
 }
-span{
+.transcript-scroller-child span{
   font-family: "Pokemon GB" !important;
   color: black !important;
 }
+
+.transcript-scroller-child span:nth-child(2){
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+}
+
 .transcript {
   text-shadow: none !important;
   background-color: white !important;

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {getFusionTypes} from './FusionHelpers';
+import {getFusionTypes, betterFusionTypes} from './FusionHelpers';
 
 const TypesOuter = styled.div`
   display: flex;
@@ -10,6 +10,7 @@ const TypesOuter = styled.div`
   margin-top: -40px;
   justify-content: center;
   align-items: center;
+  padding-bottom: 20px;
 `;
 const Type = styled.div`
   width: fit-content;
@@ -25,7 +26,9 @@ const Type = styled.div`
 `;
 
 function PokemonTypes(props){
-  const types = getFusionTypes(props.pkmn1, props.pkmn2);
+  const types1 = getFusionTypes(props.pkmn1, props.pkmn2);
+  const types = betterFusionTypes(props.pkmn1, props.pkmn2);
+  console.log("new types" + JSON.stringify(types));
   return(
     <TypesOuter >
       <Type style={{backgroundColor: `${types[0].color}`, marginRight: "10px"}}>{types[0].type}</Type>
