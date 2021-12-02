@@ -6,6 +6,7 @@ const suffixes = ["basaur","ysaur","usaur","mander","meleon","izard","tle","tort
 const starters = [1,4,7,10,13,16,19,21,23,25,27,29,32,35,37,39,41,43,46,48,50,52,54,56,58,60,63,66,69,72,74,77,79,81,83,84,86,88,90,92,96,97,98,100,102,104,106,107,108,109,111,113,114,115,116,118,120,122,123,124,125,126,127,128,129,131,132,133,137,138,140,143,147];
 const normal = [1,4,7];
 const strictStarters =[1,4,7,10,13,16,19,21,23,25,27,29,32,35,37,39,41,43,46,48,50,52,54,56,58,60,63,66,69,72,74,77,79,81,86,88,90,92,96,98,100,104,109,113,116,118,120,122,129,132,133,138,140,147];
+const rival=[3,6,9,31,34,38,53,55,59,62,65,68,71,76,78,80,91,94,95,103,106,107,112,115,123,124,125,126,127,128,130,131,139,141,142,143,144,145,146,149,150,151];
 
 const typeColors=[
   {"type": "Normal", "color":"#A8A878"},
@@ -26,6 +27,27 @@ const typeColors=[
   {"type": "Dragon", "color":"#7038F8"},
   {"type": "Steel", "color":"#B8B8D0"},
   {"type": "Fairy", "color":"#F0B6BC"}
+];
+
+const typeWeakneses=[
+  {type:"Bug", weak:["Fire", "Flying", "Rock"]},
+  {type:"Dark", weak:["Bug", "Fairy", "Fighting"]},
+  {type:"Dragon", weak:["Dragon", "Fairy", "Ice"]},
+  {type:"Electric", weak:["Ground"]},
+  {type:"Fairy", weak:["Poison", "Steel"]},
+  {type:"Fighting", weak:["Fairy", "Flying", "Psychic"]},
+  {type:"Fire", weak:["Ground", "Rock", "Water"]},
+  {type:"Flying", weak:["Electric", "Ice", "Rock"]},
+  {type:"Ghost", weak:["Dark", "Ghost"]},
+  {type:"Grass", weak:["Bug", "Fire", "Flying", "Ice", "Poison"]},
+  {type:"Ground", weak:["Grass", "Ice", "Water"]},
+  {type:"Ice", weak:["Fighting", "Fire", "Rock", "Steel"]},
+  {type:"Normal", weak:["Fighting"]},
+  {type:"Poison", weak:["Ground", "Psychic"]},
+  {type:"Psychic", weak:["Bug", "Dark", "Ghost"]},
+  {type:"Rock", weak:["Fighting", "Grass", "Ground", "Steel", "Water"]},
+  {type:"Steel", weak:["Fighting", "Fire", "Ground"]},
+  {type:"Water", weak:["Electric", "Grass"]}
 ];
 
 function getFusionName(pkmn1, pkmn2) {
@@ -88,6 +110,28 @@ function getUniqueStarters(){
   return starterIDs;
 }
 
+function getRivalStarter(starterChoiceType){
+  const weaknesses = typeWeakneses.find(obj => obj.type === starterChoiceType).weak;
+
+  let noAdvantage = true;
+  let rivalTypes = [];
+  let starter1 = null;
+  let starter2 = null;
+
+
+  while(noAdvantage){
+    starter1 =Math.floor(Math.random() * rival.length);
+    starter2 =Math.floor(Math.random() * rival.length);
+    rivalTypes = getFusionTypes(starter1, starter2);
+    if(weaknesses.includes(rivalTypes[0].type)){
+      noAdvantage = false;
+    }
+  }
+  const rivalObj = {pkmn1: starter1, pkmn2: starter2, types:rivalTypes};
+  console.log(rivalObj);
+  return rivalObj
+}
+
 function getFusionTypes(pkmn1, pkmn2){
   const pokemon1Types = pokedex[pkmn1].type;
   const pokemon2Types = pokedex[pkmn2].type;
@@ -112,18 +156,29 @@ function betterFusionTypes(pkmn1, pkmn2){
   const pokemon2Types = pokedex[pkmn2].type;
   console.log(pokemon1Types, pokemon2Types);
   const pokemonTypes = pokemon2Types.concat(pokemon1Types);
-  //if both pokemon have 1 type return those two types (without dupes)
-  //if the body (pkmn1) has flying its x - flying
-  //normal is recessive, it only exists if its the only type, always drop
-  //pkmn2 is "dominate" in cases of of shared types or recesissive
-  //['Bug', 'Grass'] ['Bug', 'Poison'] = Poison Bug
+
   if(pokemon1Types.length === 1 && pokemon2Types.length === 1){
     return findColor(pokemonTypes);
   } else {
     let temp1 = pokemon1Types;
     let temp2 = pokemon2Types;
-    const shared = temp1.some(r=> temp2.includes(r));
-    console.log('shared', shared);
+    const sharedTypes = temp1.filter(function(e) {
+        return temp2.indexOf(e) > -1;
+    });
+    if(sharedTypes.length>0){
+      const shared = sharedTypes[0];
+      let primary = "";
+      let secondary ="";
+      if(temp2.length>1){
+        primary = temp2.filter(e => e !== shared)[0];
+        secondary = shared;
+      } else {
+        primary = shared;
+        secondary = temp1.filter(e => e !== shared)[0];
+      }
+      console.log(findColor([primary, secondary]))
+      return findColor([primary, secondary]);
+    }
     if(pokemon1Types.length > 1){
       temp1 = pokemon1Types.filter(e => e !== 'Normal')
       if (temp1.includes('Flying')){

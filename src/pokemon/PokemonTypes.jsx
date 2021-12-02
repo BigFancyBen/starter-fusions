@@ -26,9 +26,7 @@ const Type = styled.div`
 `;
 
 function PokemonTypes(props){
-  const types1 = getFusionTypes(props.pkmn1, props.pkmn2);
   const types = betterFusionTypes(props.pkmn1, props.pkmn2);
-  console.log("new types" + JSON.stringify(types));
   return(
     <TypesOuter >
       <Type style={{backgroundColor: `${types[0].color}`, marginRight: "10px"}}>{types[0].type}</Type>
