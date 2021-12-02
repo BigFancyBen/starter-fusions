@@ -7,22 +7,22 @@ const TypesOuter = styled.div`
   flex-direction: row;
   font-family: 'PKMN RBYGSC';
   font-size: 25px;
-  margin-top: -40px;
   justify-content: center;
   align-items: center;
-  padding-bottom: 20px;
+  padding-bottom: 15px;
+  background-color: #222;
 `;
 const Type = styled.div`
   width: fit-content;
   border-radius: 30px;
   color: white;
-  padding: 8px 15px;
-  box-shadow: 2px 2px #444;
+  padding: 4px 8px;
+  box-shadow: 1px 1px #444;
   border: 1px solid #444;
-
   font-family: 'PKMN RBYGSC';
-  font-size: 25px;
-  color: white;
+  font-size: 12px;
+  color: #222;
+  text-transform: uppercase;
 `;
 
 function PokemonTypes(props){

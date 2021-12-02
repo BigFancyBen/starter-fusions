@@ -154,7 +154,6 @@ function getFusionTypes(pkmn1, pkmn2){
 function betterFusionTypes(pkmn1, pkmn2){
   const pokemon1Types = pokedex[pkmn1].type;
   const pokemon2Types = pokedex[pkmn2].type;
-  console.log(pokemon1Types, pokemon2Types);
   const pokemonTypes = pokemon2Types.concat(pokemon1Types);
 
   if(pokemon1Types.length === 1 && pokemon2Types.length === 1){

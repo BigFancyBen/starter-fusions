@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import PokemonFusion from './PokemonFusion';
 import { getUniqueStarters } from './FusionHelpers';
+import PokedexH from './pokedex/PokedexH';
 
 const ClicksOuter = styled.div`
   position: absolute;
@@ -22,7 +23,7 @@ const Pokeball = styled.div`
 
 const PokemonOuter = styled.div`
   position: fixed;
-  top: 50px;
+  top: 150px;
   left: 50px;
 `;
 
@@ -74,8 +75,8 @@ function Pokeballs(props){
       <Pokeball onClick={() =>  toggleStarters(1)}/>
       <Pokeball onClick={() =>  toggleStarters(2)}/>
       <Pokeball onClick={() =>  toggleStarters(3)}/>
-
       <PokemonOuter>
+        <PokedexH />
         {starter1Showing && <PokemonFusion pkmn1={myStarters[0].pkmn1} pkmn2={myStarters[0].pkmn2} /> }
         {starter2Showing && <PokemonFusion pkmn1={myStarters[1].pkmn1} pkmn2={myStarters[1].pkmn2} /> }
         {starter3Showing && <PokemonFusion pkmn1={myStarters[2].pkmn1} pkmn2={myStarters[2].pkmn2} /> }

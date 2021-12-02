@@ -5,31 +5,30 @@ import PokemonTypes from './PokemonTypes'
 import pokedex from './pokedex.json';
 
 const PokemonDiv = styled.div`
-  margin: 10px;
-  border: 10px solid #444;
-  border-radius: 50px;
-  background-color: #fff9e6;
   z-index:3;
-  width: 400px;
-  height: 100%;
-  
-  img {
-    width: 100%;
-    min-height: 400px;
-  }
+  width: 700px;
+  height: 400px;
+  position: absolute;
+  top: 100px;
 `;
 
 const PokemonName = styled.div`
   font-family: 'PKMN RBYGSC';
-  font-size: 40px;
-  margin-top: 20px;
+  font-size: 24px;
+  padding: 10px 0;
   text-align: center;
+  color: white;
 `;
 
-const ParentOuter = styled.div`
+const DescriptionOuter = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  top: 50px;
+  left: 427px;
+  width: 220px;
+  height: 262px;
   img {
     min-height: 0;
   }
@@ -40,7 +39,6 @@ const ParentPokemon = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 10px;
   img {
     height: 80px;
     width: 80px;
@@ -49,29 +47,85 @@ const ParentPokemon = styled.div`
 
 const ParentName = styled.div`
   font-family: 'PKMN RBYGSC';
-  font-size: 15px;
+  font-size: 10px;
   text-align: center;
   margin-top: 10px;
+`;
+
+const LeftImage = styled.div`
+  height: 275px;
+  width: 275px;
+  position: relative;
+  margin: 42px 0 0 42px;
+  img {
+    height: 100%;
+    width: 100%;
+  }
+`;
+
+const ParentWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 10px;
+`;
+
+const Title = styled.div`
+  font-size: 14px;
+  text-align: center;
+  background-color: #DEDEDE;
+  color: #222;
+  font-family: 'PKMN RBYGSC';
+  padding: 10px 10px 0 10px;
+`;
+
+const PokeID = styled.div`
+  font-size: 11px;
+  text-align: center;
+  background-color: #222;
+  color: white;
+  font-family: 'PKMN RBYGSC';
+  padding: 0 10px 10px 10px;
+`;
+
+const DarkWrapper = styled.div`
+  background-color: #222;
+  border-radius: 5px 5px 0 0;
+`;
+
+const LightWrapper = styled.div`
+
 `;
 
 function PokemonFusion(props){
 
   return(
     <PokemonDiv >
-      <ParentOuter>
-        <ParentPokemon>        
-          <ParentName>{pokedex[props.pkmn1].name}</ParentName>
-          <img rel="preload" src={`https://www.pokencyclopedia.info/sprites/gen3/spr_firered-leafgreen/spr_frlg_${String(props.pkmn1).padStart(3,'0')}.png`} alt="" />
-        </ParentPokemon>
-        <ParentName>&</ParentName>
-        <ParentPokemon>        
-          <ParentName>{pokedex[props.pkmn2].name}</ParentName>
-          <img rel="preload" src={`https://www.pokencyclopedia.info/sprites/gen3/spr_firered-leafgreen/spr_frlg_${String(props.pkmn2).padStart(3,'0')}.png`} alt="" />
-        </ParentPokemon>
-      </ParentOuter>
-      <PokemonName>{getFusionName(props.pkmn1, props.pkmn2)}</PokemonName>
-      <img rel="preload" src={`https://images.alexonsager.net/pokemon/fused/${props.pkmn1}/${props.pkmn1}.${props.pkmn2}.png`} style={{ marginTop: "-40px"}} alt="" />
-      <PokemonTypes pkmn1={props.pkmn1} pkmn2={props.pkmn2} />
+      <LeftImage>
+        <img rel="preload" src={`https://images.alexonsager.net/pokemon/fused/${props.pkmn1}/${props.pkmn1}.${props.pkmn2}.png`} alt="" />
+      </LeftImage>
+      
+      <DescriptionOuter>
+        <DarkWrapper>
+          <PokemonName>{getFusionName(props.pkmn1, props.pkmn2)}</PokemonName>
+          <PokemonTypes pkmn1={props.pkmn1} pkmn2={props.pkmn2} />
+          <PokeID>{`ID:  ${props.pkmn1}.${props.pkmn2}`}</PokeID>
+        </DarkWrapper>
+        <LightWrapper>
+          <Title>Parents</Title>
+          <ParentWrapper>
+            <ParentPokemon>        
+              <ParentName>{pokedex[props.pkmn1].name}</ParentName>
+              <img rel="preload" src={`https://www.pokencyclopedia.info/sprites/gen3/spr_firered-leafgreen/spr_frlg_${String(props.pkmn1).padStart(3,'0')}.png`} alt="" />
+            </ParentPokemon>
+            <ParentName>&</ParentName>
+            <ParentPokemon>        
+              <ParentName>{pokedex[props.pkmn2].name}</ParentName>
+              <img rel="preload" src={`https://www.pokencyclopedia.info/sprites/gen3/spr_firered-leafgreen/spr_frlg_${String(props.pkmn2).padStart(3,'0')}.png`} alt="" />
+            </ParentPokemon>
+          </ParentWrapper>
+        </LightWrapper>
+      </DescriptionOuter>
     </PokemonDiv>
   );
 }
