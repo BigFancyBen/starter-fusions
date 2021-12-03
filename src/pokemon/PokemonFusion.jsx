@@ -1,8 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import {getFusionName, getFusionTypes} from './FusionHelpers';
 import PokemonTypes from './PokemonTypes'
 import pokedex from './pokedex.json';
+import { headShake } from 'react-animations'
 
 const PokemonDiv = styled.div`
   z-index:3;
@@ -10,11 +11,12 @@ const PokemonDiv = styled.div`
   height: 400px;
   position: absolute;
   top: 100px;
+  user-select: none;
 `;
 
 const PokemonName = styled.div`
   font-family: 'PKMN RBYGSC';
-  font-size: 24px;
+  font-size: 22px;
   padding: 10px 0;
   text-align: center;
   color: white;
@@ -93,8 +95,12 @@ const DarkWrapper = styled.div`
   border-radius: 5px 5px 0 0;
 `;
 
-const LightWrapper = styled.div`
+const LightWrapper = styled.div``;
 
+const headshakeAnimation = keyframes`${headShake}`;
+
+const FusionPokemon = styled.img`
+  animation: 1s ${headshakeAnimation};
 `;
 
 function PokemonFusion(props){
@@ -102,7 +108,7 @@ function PokemonFusion(props){
   return(
     <PokemonDiv >
       <LeftImage>
-        <img rel="preload" src={`https://images.alexonsager.net/pokemon/fused/${props.pkmn1}/${props.pkmn1}.${props.pkmn2}.png`} alt="" />
+        <FusionPokemon rel="preload" src={`https://images.alexonsager.net/pokemon/fused/${props.pkmn1}/${props.pkmn1}.${props.pkmn2}.png`} alt="" />
       </LeftImage>
       
       <DescriptionOuter>

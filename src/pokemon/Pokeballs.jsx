@@ -51,22 +51,34 @@ function Pokeballs(props){
 
   function toggleStarters(selection){
     if(selection === 1){
-      audio1.play();
-      setStarter1Showing(true);
+      if(starter1Showing){
+        setStarter1Showing(false)
+      } else {
+        setStarter1Showing(true)
+        audio1.play();
+      }
       setStarter2Showing(false);
       setStarter3Showing(false);
     }
     if(selection === 2){
-      audio2.play();
       setStarter1Showing(false);
-      setStarter2Showing(true);
+      if(starter2Showing){
+        setStarter2Showing(false)
+      } else {
+        setStarter2Showing(true)
+        audio2.play();
+      }
       setStarter3Showing(false);
     }
     if(selection === 3){
-      audio3.play();
       setStarter1Showing(false);
       setStarter2Showing(false);
-      setStarter3Showing(true);
+      if(starter3Showing){
+        setStarter3Showing(false)
+      } else {
+        setStarter3Showing(true)
+        audio3.play();
+      }
     }
   }
 
@@ -76,7 +88,7 @@ function Pokeballs(props){
       <Pokeball onClick={() =>  toggleStarters(2)}/>
       <Pokeball onClick={() =>  toggleStarters(3)}/>
       <PokemonOuter>
-        <PokedexH />
+        {(starter1Showing || starter2Showing || starter3Showing) && <PokedexH />}
         {starter1Showing && <PokemonFusion pkmn1={myStarters[0].pkmn1} pkmn2={myStarters[0].pkmn2} /> }
         {starter2Showing && <PokemonFusion pkmn1={myStarters[1].pkmn1} pkmn2={myStarters[1].pkmn2} /> }
         {starter3Showing && <PokemonFusion pkmn1={myStarters[2].pkmn1} pkmn2={myStarters[2].pkmn2} /> }

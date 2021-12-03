@@ -23,6 +23,7 @@ const PokemonOuter = styled.div`
     left: 0;
     height: 100%;
     width: 100%;
+    user-select: none;
     img{
       height: 100%;
       width: 100%;

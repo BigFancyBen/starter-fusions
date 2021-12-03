@@ -4,40 +4,40 @@ import './pokedex.css';
 function PokedexH(){
   return(
 
-    <div class="container">
-    <div class="left-screen">
-      <div class="left-screen__top">
-        <div class="light-container">
-          <div class="light light--blue">
+    <div className="container">
+    <div className="left-screen">
+      <div className="left-screen__top">
+        <div className="light-container">
+          <div className="light light--blue">
           </div>
         </div>
-        <div class="light light--red"></div>
-        <div class="light light--yellow"></div>
-        <div class="light light--green"></div>
+        <div className="light light--red"></div>
+        <div className="light light--yellow"></div>
+        <div className="light light--green"></div>
       </div>
-      <div class="left-screen__bottom">
-        <div class="main-screen">
-          <div class="main-screen__top-lights">
+      <div className="left-screen__bottom">
+        <div className="main-screen">
+          <div className="main-screen__top-lights">
           </div>
-          <div id="display" class="main-screen__display">
+          <div id="display" className="main-screen__display">
           </div>
         </div>
       </div>
-      <div class="left-screen__joint">
-        <div class="joint"></div>
-        <div class="joint"></div>
-        <div class="joint"></div>
-        <div class="joint"></div>
-        <div class="joint__reflextion"></div>
+      <div className="left-screen__joint">
+        <div className="joint"></div>
+        <div className="joint"></div>
+        <div className="joint"></div>
+        <div className="joint"></div>
+        <div className="joint__reflextion"></div>
       </div>
     </div>
-    <div class="right-screen">
-      <div class="right-screen__top">
-        <div class="right-screen__fix"></div>
+    <div className="right-screen">
+      <div className="right-screen__top">
+        <div className="right-screen__fix"></div>
       </div>
-      <div class="right-screen__bottom">
-        <div class="info-container">
-          <section class="info-screen">
+      <div className="right-screen__bottom">
+        <div className="info-container">
+          <section className="info-screen">
 
           </section>
         </div>
