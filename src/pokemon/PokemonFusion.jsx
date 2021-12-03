@@ -31,6 +31,8 @@ const DescriptionOuter = styled.div`
   left: 427px;
   width: 220px;
   height: 262px;
+  background-color: #fff9e6;
+  border-radius: 5px;
   img {
     min-height: 0;
   }
@@ -41,6 +43,11 @@ const ParentPokemon = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-grow: 1;
+  border: 1px solid #222;
+  margin: 10px;
+  box-shadow: 1px 2px #777;
+  border-radius: 5px;
   img {
     height: 80px;
     width: 80px;
@@ -68,17 +75,18 @@ const LeftImage = styled.div`
 const ParentWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  margin: 0 10px;
+  justify-content: stretch;
+  flex-grow: 1;
 `;
 
 const Title = styled.div`
   font-size: 14px;
   text-align: center;
-  background-color: #DEDEDE;
   color: #222;
   font-family: 'PKMN RBYGSC';
-  padding: 10px 10px 0 10px;
+  padding: 5px 10px;
+  border-bottom: 2px solid #222;
+  margin: 0 10px;
 `;
 
 const PokeID = styled.div`
@@ -95,7 +103,10 @@ const DarkWrapper = styled.div`
   border-radius: 5px 5px 0 0;
 `;
 
-const LightWrapper = styled.div``;
+const LightWrapper = styled.div`
+  background-color: #fff9e6;
+  border-radius: 0 0 5px 5px;
+`;
 
 const headshakeAnimation = keyframes`${headShake}`;
 
@@ -120,12 +131,11 @@ function PokemonFusion(props){
         <LightWrapper>
           <Title>Parents</Title>
           <ParentWrapper>
-            <ParentPokemon>        
+            <ParentPokemon style={{marginRight: '5px'}}>        
               <ParentName>{pokedex[props.pkmn1].name}</ParentName>
               <img rel="preload" src={`https://www.pokencyclopedia.info/sprites/gen3/spr_firered-leafgreen/spr_frlg_${String(props.pkmn1).padStart(3,'0')}.png`} alt="" />
             </ParentPokemon>
-            <ParentName>&</ParentName>
-            <ParentPokemon>        
+            <ParentPokemon style={{marginLeft: '5px'}}>        
               <ParentName>{pokedex[props.pkmn2].name}</ParentName>
               <img rel="preload" src={`https://www.pokencyclopedia.info/sprites/gen3/spr_firered-leafgreen/spr_frlg_${String(props.pkmn2).padStart(3,'0')}.png`} alt="" />
             </ParentPokemon>

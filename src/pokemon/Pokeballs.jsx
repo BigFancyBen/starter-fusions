@@ -16,8 +16,8 @@ const ClicksOuter = styled.div`
 `;
 const Pokeball = styled.div`
   width: 33%;
-  background-color: rgba(0,0,0,.3);
-  border: 1px solid black;
+  /* background-color: rgba(0,0,0,.3);
+  border: 1px solid black; */
 `;
 
 
