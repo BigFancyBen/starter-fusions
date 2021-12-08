@@ -12,11 +12,11 @@
   color: black !important;
 }
 
-.transcript-scroller-child span:nth-child(2){
+/* .transcript-scroller-child span:nth-child(2){
   min-height: 140px;
   display: flex;
   align-items: center;
-}
+} */
 
 .transcript {
   text-shadow: none !important;

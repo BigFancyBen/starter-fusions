@@ -1,13 +1,13 @@
 import React from 'react';
 import './pokedex.css';
-
-function PokedexH(){
+import { getRivalPkmn } from '../FusionHelpers';
+function PokedexH({pkmn1, pkmn2}){
   return(
 
     <div className="container">
     <div className="left-screen">
       <div className="left-screen__top">
-        <div className="light-container">
+        <div className="light-container" onClick={()=> getRivalPkmn({pkmn1, pkmn2})}>
           <div className="light light--blue">
           </div>
         </div>

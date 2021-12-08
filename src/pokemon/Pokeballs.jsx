@@ -16,8 +16,6 @@ const ClicksOuter = styled.div`
 `;
 const Pokeball = styled.div`
   width: 33%;
-  /* background-color: rgba(0,0,0,.3);
-  border: 1px solid black; */
 `;
 
 
@@ -37,7 +35,7 @@ function Pokeballs(props){
   const [audio1, setAudio1] = useState(null);
   const [audio2, setAudio2] = useState(null);
   const [audio3, setAudio3] = useState(null);
-
+  const [curSelection, setCurSelection] = useState(null);
   useEffect(() => {
     setMyStarters(getUniqueStarters());
   }, [])
@@ -51,6 +49,7 @@ function Pokeballs(props){
 
   function toggleStarters(selection){
     if(selection === 1){
+      setCurSelection(1);
       if(starter1Showing){
         setStarter1Showing(false)
       } else {
@@ -61,6 +60,7 @@ function Pokeballs(props){
       setStarter3Showing(false);
     }
     if(selection === 2){
+      setCurSelection(2);
       setStarter1Showing(false);
       if(starter2Showing){
         setStarter2Showing(false)
@@ -71,6 +71,7 @@ function Pokeballs(props){
       setStarter3Showing(false);
     }
     if(selection === 3){
+      setCurSelection(3);
       setStarter1Showing(false);
       setStarter2Showing(false);
       if(starter3Showing){
@@ -81,14 +82,14 @@ function Pokeballs(props){
       }
     }
   }
-
+  
   return(
     <ClicksOuter>
       <Pokeball onClick={() =>  toggleStarters(1)}/>
       <Pokeball onClick={() =>  toggleStarters(2)}/>
       <Pokeball onClick={() =>  toggleStarters(3)}/>
       <PokemonOuter>
-        {(starter1Showing || starter2Showing || starter3Showing) && <PokedexH />}
+        {(starter1Showing || starter2Showing || starter3Showing) && <PokedexH pkmn1={myStarters[curSelection-1].pkmn1} pkmn2={myStarters[curSelection-1].pkmn2}/>}
         {starter1Showing && <PokemonFusion pkmn1={myStarters[0].pkmn1} pkmn2={myStarters[0].pkmn2} /> }
         {starter2Showing && <PokemonFusion pkmn1={myStarters[1].pkmn1} pkmn2={myStarters[1].pkmn2} /> }
         {starter3Showing && <PokemonFusion pkmn1={myStarters[2].pkmn1} pkmn2={myStarters[2].pkmn2} /> }
