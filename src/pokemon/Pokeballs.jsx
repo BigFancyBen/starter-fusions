@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import PokemonFusion from './PokemonFusion';
 import { getUniqueStarters } from './FusionHelpers';
@@ -16,6 +16,26 @@ const ClicksOuter = styled.div`
 `;
 const Pokeball = styled.div`
   width: 33%;
+  display: flex;
+  justify-content: center;
+  user-select: none;
+  user-drag: none;
+`;
+const PokeballImage = styled.img`
+  object-fit: cover;
+  width: 55px;
+  height: 100%;
+  filter: blur(1px);
+  user-drag: none;
+  &.open{
+    object-position: right;
+  }
+  &.closed{
+    object-position: left;
+  }
+  &.opening{
+    object-position: center;
+  }
 `;
 
 
@@ -36,6 +56,9 @@ function Pokeballs(props){
   const [audio2, setAudio2] = useState(null);
   const [audio3, setAudio3] = useState(null);
   const [curSelection, setCurSelection] = useState(null);
+  const _pokeball1 = useRef(null);
+  const _pokeball2 = useRef(null);
+  const _pokeball3 = useRef(null);
   useEffect(() => {
     setMyStarters(getUniqueStarters());
   }, [])
@@ -47,37 +70,76 @@ function Pokeballs(props){
     setAudio3(new Audio(`./fused/${myStarters[2].pkmn1}/${myStarters[2].pkmn1}.${myStarters[2].pkmn2}.mp3`));
   }, [myStarters])
 
+  function animatePokeball(pokeballRef, direction){
+    const pokeball = pokeballRef.current;
+    const curOpenState = pokeball.classList.contains('closed') ? 'closed' : 'open';
+    if( (direction === 'closed' && curOpenState === 'closed') || (direction === 'open' && curOpenState === 'open') ){
+      return;
+    } else {
+      pokeball.classList.add('opening');
+      setTimeout(function() { 
+        if (pokeball.classList.contains('closed')){
+          pokeball.classList.remove('closed');
+          pokeball.classList.remove('opening');
+          pokeball.classList.add('open');
+        }
+        else {
+          pokeball.classList.remove('opening');
+          pokeball.classList.remove('open');
+          pokeball.classList.add('closed');
+        }
+      }, 100);
+    }
+
+  }
+
   function toggleStarters(selection){
     if(selection === 1){
       setCurSelection(1);
       if(starter1Showing){
-        setStarter1Showing(false)
+        setStarter1Showing(false);
+        animatePokeball(_pokeball1, 'closed');
       } else {
-        setStarter1Showing(true)
+        setStarter1Showing(true);
+        animatePokeball(_pokeball1, 'open');
         audio1.play();
       }
       setStarter2Showing(false);
+      animatePokeball(_pokeball2, 'closed');
+
       setStarter3Showing(false);
+      animatePokeball(_pokeball3, 'closed');
     }
     if(selection === 2){
       setCurSelection(2);
       setStarter1Showing(false);
+      animatePokeball(_pokeball1, 'closed');
       if(starter2Showing){
-        setStarter2Showing(false)
+        setStarter2Showing(false);
+        animatePokeball(_pokeball2, 'closed');
       } else {
+        animatePokeball(_pokeball2, 'open');
         setStarter2Showing(true)
         audio2.play();
       }
       setStarter3Showing(false);
+      animatePokeball(_pokeball3, 'closed');
     }
     if(selection === 3){
       setCurSelection(3);
+
       setStarter1Showing(false);
+      animatePokeball(_pokeball1, 'closed');
+
       setStarter2Showing(false);
+      animatePokeball(_pokeball2, 'closed');
+
       if(starter3Showing){
-        setStarter3Showing(false)
+        setStarter3Showing(false);
+        animatePokeball(_pokeball3, 'closed');
       } else {
         setStarter3Showing(true)
+        animatePokeball(_pokeball3, 'open');
         audio3.play();
       }
     }
@@ -85,9 +147,9 @@ function Pokeballs(props){
   
   return(
     <ClicksOuter>
-      <Pokeball onClick={() =>  toggleStarters(1)}/>
-      <Pokeball onClick={() =>  toggleStarters(2)}/>
-      <Pokeball onClick={() =>  toggleStarters(3)}/>
+      <Pokeball onClick={() =>  toggleStarters(1)}><PokeballImage ref={_pokeball1} className="closed" src="/images/pokeball.png " /></Pokeball>
+      <Pokeball onClick={() =>  toggleStarters(2)}><PokeballImage ref={_pokeball2} className="closed" src="/images/pokeball.png " /></Pokeball>
+      <Pokeball onClick={() =>  toggleStarters(3)}><PokeballImage ref={_pokeball3} className="closed" src="/images/pokeball.png " /></Pokeball>
       <PokemonOuter>
         {(starter1Showing || starter2Showing || starter3Showing) && <PokedexH pkmn1={myStarters[curSelection-1].pkmn1} pkmn2={myStarters[curSelection-1].pkmn2}/>}
         {starter1Showing && <PokemonFusion pkmn1={myStarters[0].pkmn1} pkmn2={myStarters[0].pkmn2} /> }

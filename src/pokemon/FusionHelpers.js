@@ -60,7 +60,7 @@ function getFusionName(pkmn1, pkmn2) {
     name = prefix.slice(0, prefix.length - 2) + suffix;
   } else if (prefix.slice(-1) === suffix.slice(0, 1)) {
     name = prefix.slice(0, prefix.length - 1) + suffix;
-  } else if (prefix?.slice(-1) === ".") {
+  } else if (prefix.slice(-1) === '.') {
     name = prefix + " " + suffix[0].toUpperCase() + suffix.slice(1);
   } else {
     name = prefix + suffix;
@@ -123,12 +123,11 @@ function getRivalStarter(starterChoiceType){
     starter1 =Math.floor(Math.random() * rival.length);
     starter2 =Math.floor(Math.random() * rival.length);
     rivalTypes = getFusionTypes(rival[starter2], rival[starter1]);
-    if(weaknesses.includes(rivalTypes[0]?.type)){
+    if(weaknesses.includes(rivalTypes[0].type)){
       noAdvantage = false;
     }
   }
   const rivalObj = {pkmn1: rival[starter1], pkmn2: rival[starter2], types:rivalTypes};
-  console.log(rivalObj);
   return rivalObj
 }
 

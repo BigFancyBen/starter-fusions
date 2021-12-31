@@ -38,6 +38,7 @@ const PokemonOuter = styled.div`
 function App() {
   const obs = new ObsWebSocket();
   const [activeScene, setActiveScene] = useState(null)
+  const [oakWithPkmn, setOakWithPkmn] = useState(false);
 
   useEffect(() => {
     obs.connect({
@@ -57,11 +58,19 @@ function App() {
     });
   }, [])
 
+  useEffect(() => {
+    if(activeScene == 'OakIntroPkmn'){
+      setOakWithPkmn(true);
+    } else {
+      setOakWithPkmn(false);
+    }
+  }, [activeScene])
+
   return (
     <PokemonOuter className="App">
-      {activeScene == 'OakIntro' && <Intro />}
-      <Pokeballs />
-      <div className="bg"><img src="/images/oakslab.png" alt="" /></div>
+      {(activeScene == 'OakIntro'  || activeScene === 'OakIntroPkmn' || activeScene === 'OakIntro-Zoom') && <Intro withPkmn={oakWithPkmn}/>}
+      {activeScene ==='OaksLab' && <Pokeballs />}
+      <div draggable="false" className="bg"><img src="/images/oakslab.png" alt="" /></div>
     </PokemonOuter>
   );
 }

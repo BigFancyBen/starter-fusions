@@ -45,13 +45,17 @@ const OakBody = styled.img`
   left: 520px;
   top: 200px;
   z-index: 11;
+  &.with-pkmn {
+    left: 570px;
+    top: 190px;
+  }
 `;
 
-function Intro(){
+function Intro({withPkmn}){
   return(
     <IntroBackground>
       <IntroPedestal />
-        <OakBody src="/images/oaksbody-headless.png" alt="" />
+        <OakBody className={`${withPkmn ? 'with-pkmn' : 'default'}`}src="/images/oaksbody-headless.png" alt="" />
       <IntroText />
     </IntroBackground>
   );
