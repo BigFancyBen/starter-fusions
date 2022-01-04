@@ -9,8 +9,6 @@ const TypesOuter = styled.div`
   font-size: 25px;
   justify-content: center;
   align-items: center;
-  padding-bottom: 15px;
-  background-color: #222;
 `;
 const Type = styled.div`
   width: fit-content;

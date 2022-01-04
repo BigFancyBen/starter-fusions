@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import PokemonFusion from './PokemonFusion';
-import { getUniqueStarters } from './FusionHelpers';
+import { getUniqueStarters, getRivalPkmn } from './FusionHelpers';
 import PokedexH from './pokedex/PokedexH';
+import Rival from '../rival/Rival';
 
 const ClicksOuter = styled.div`
   position: absolute;
@@ -47,7 +48,7 @@ const PokemonOuter = styled.div`
 
 
 
-function Pokeballs(props){
+function Pokeballs({changeScene}){
   const [myStarters, setMyStarters] = useState([]);
   const [starter1Showing, setStarter1Showing] = useState(false);
   const [starter2Showing, setStarter2Showing] = useState(false);
@@ -59,6 +60,11 @@ function Pokeballs(props){
   const _pokeball1 = useRef(null);
   const _pokeball2 = useRef(null);
   const _pokeball3 = useRef(null);
+  
+  const [starterSelected, setStarterSelected] = useState(false);
+  const [rivalReady, setRivalReady] = useState(false);
+  const [finalScreen, setFinalScreen] = useState(null);
+  
   useEffect(() => {
     setMyStarters(getUniqueStarters());
   }, [])
@@ -69,6 +75,17 @@ function Pokeballs(props){
     setAudio2(new Audio(`./fused/${myStarters[1].pkmn1}/${myStarters[1].pkmn1}.${myStarters[1].pkmn2}.mp3`));
     setAudio3(new Audio(`./fused/${myStarters[2].pkmn1}/${myStarters[2].pkmn1}.${myStarters[2].pkmn2}.mp3`));
   }, [myStarters])
+
+  useEffect(() => {
+    if(starterSelected === false){return};
+    setFinalScreen(getRivalPkmn({pkmn1:myStarters[curSelection-1].pkmn1, pkmn2:myStarters[curSelection-1].pkmn2}));
+  }, [starterSelected])
+  
+  useEffect(() => {
+    if(finalScreen === null){return};
+    changeScene('Rival');
+    setRivalReady(true);
+  }, [finalScreen])
 
   function animatePokeball(pokeballRef, direction){
     const pokeball = pokeballRef.current;
@@ -151,11 +168,12 @@ function Pokeballs(props){
       <Pokeball onClick={() =>  toggleStarters(2)}><PokeballImage ref={_pokeball2} className="closed" src="/images/pokeball.png " /></Pokeball>
       <Pokeball onClick={() =>  toggleStarters(3)}><PokeballImage ref={_pokeball3} className="closed" src="/images/pokeball.png " /></Pokeball>
       <PokemonOuter>
-        {(starter1Showing || starter2Showing || starter3Showing) && <PokedexH pkmn1={myStarters[curSelection-1].pkmn1} pkmn2={myStarters[curSelection-1].pkmn2}/>}
+        {(starter1Showing || starter2Showing || starter3Showing) && <PokedexH starterSelected={setStarterSelected} />}
         {starter1Showing && <PokemonFusion pkmn1={myStarters[0].pkmn1} pkmn2={myStarters[0].pkmn2} /> }
         {starter2Showing && <PokemonFusion pkmn1={myStarters[1].pkmn1} pkmn2={myStarters[1].pkmn2} /> }
         {starter3Showing && <PokemonFusion pkmn1={myStarters[2].pkmn1} pkmn2={myStarters[2].pkmn2} /> }
       </PokemonOuter>
+      {rivalReady && <Rival finalScreen={finalScreen}/>}
     </ClicksOuter>
   );
 }

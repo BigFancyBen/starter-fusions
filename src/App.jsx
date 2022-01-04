@@ -1,7 +1,6 @@
 import './App.css';
 import styled from 'styled-components';
 import Pokeballs from './pokemon/Pokeballs';
-import Oakcam from './oakcam/Oakcam'
 import Intro from './intro/Intro';
 import './images/oakslab.png'
 import ObsWebSocket from 'obs-websocket-js';
@@ -34,7 +33,7 @@ const PokemonOuter = styled.div`
     }
   }
 `;
-//<Intro />
+
 function App() {
   const obs = new ObsWebSocket();
   const [activeScene, setActiveScene] = useState(null)
@@ -64,12 +63,25 @@ function App() {
     } else {
       setOakWithPkmn(false);
     }
+    if(activeScene == 'Rival'){
+      obs.connect({
+        address: 'localhost:4444',
+        password: 'verysecurelol'
+      })
+      .then(() => {
+        obs.send('SetCurrentScene', {
+          'scene-name': "Rival"
+        });
+      }).catch(err => { 
+          console.log(err);
+      });
+    }
   }, [activeScene])
 
   return (
     <PokemonOuter className="App">
       {(activeScene == 'OakIntro'  || activeScene === 'OakIntroPkmn' || activeScene === 'OakIntro-Zoom') && <Intro withPkmn={oakWithPkmn}/>}
-      {activeScene ==='OaksLab' && <Pokeballs />}
+      {(activeScene ==='OaksLab'  || activeScene === 'Rival') && <Pokeballs changeScene={setActiveScene}/>}
       <div draggable="false" className="bg"><img src="/images/oakslab.png" alt="" /></div>
     </PokemonOuter>
   );

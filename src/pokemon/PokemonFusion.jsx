@@ -95,7 +95,7 @@ const PokeID = styled.div`
   background-color: #222;
   color: white;
   font-family: 'PKMN RBYGSC';
-  padding: 0 10px 10px 10px;
+  padding: 15px 10px 10px 10px;
 `;
 
 const DarkWrapper = styled.div`

@@ -112,7 +112,6 @@ function getUniqueStarters(){
 
 function getRivalStarter(starterChoiceType){
   const weaknesses = typeWeakneses.find(obj => obj.type === starterChoiceType).weak;
-  console.log(starterChoiceType, weaknesses);
   let noAdvantage = true;
   let rivalTypes = [];
   let starter1 = null;
@@ -203,9 +202,15 @@ function findColor(typesArr){
 }
 
 function getRivalPkmn(playersPkmn){
-  const rivalsType = betterFusionTypes(playersPkmn.pkmn1, playersPkmn.pkmn2)[0].type;
+  const playersStarterTypes = betterFusionTypes(playersPkmn.pkmn1, playersPkmn.pkmn2);
+  const rivalsType = playersStarterTypes[0].type;
   const rivalStarter = getRivalStarter(rivalsType);
-  console.log(`https://images.alexonsager.net/pokemon/fused/${rivalStarter.pkmn1}/${rivalStarter.pkmn1}.${rivalStarter.pkmn2}.png`)
+  let finalScreen = {player: {}, rival: {}};
+  finalScreen.rival = rivalStarter;
+  finalScreen.player.pkmn1 = playersPkmn.pkmn1;
+  finalScreen.player.pkmn2 = playersPkmn.pkmn2;
+  finalScreen.player.types = playersStarterTypes;
+  return finalScreen;
 }
 export {getRandomPokemonIndex, getFusionName, getStarterGroup, getUniqueStarters, getFusionTypes, betterFusionTypes, getRivalPkmn};
 
