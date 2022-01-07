@@ -4,6 +4,7 @@ import PokemonFusion from './PokemonFusion';
 import { getUniqueStarters, getRivalPkmn } from './FusionHelpers';
 import PokedexH from './pokedex/PokedexH';
 import Rival from '../rival/Rival';
+import RivalAppears from './RivalAppears';
 
 const ClicksOuter = styled.div`
   position: absolute;
@@ -22,6 +23,7 @@ const Pokeball = styled.div`
   user-select: none;
   user-drag: none;
 `;
+
 const PokeballImage = styled.img`
   object-fit: cover;
   width: 55px;
@@ -64,10 +66,22 @@ function Pokeballs({changeScene}){
   const [starterSelected, setStarterSelected] = useState(false);
   const [rivalReady, setRivalReady] = useState(false);
   const [finalScreen, setFinalScreen] = useState(null);
+
+  const [rivalEntering, setRivalEntering] = useState(false);
+
+  
   
   useEffect(() => {
     setMyStarters(getUniqueStarters());
+    setRivalEntering(true);
   }, [])
+
+  useEffect(() => {
+    if(rivalEntering === false){return};
+    setTimeout(function() { 
+      setRivalEntering(false);
+    }, 5000);
+  }, [rivalEntering])
 
   useEffect(() => {
     if (myStarters.length === 0){return}
@@ -174,6 +188,7 @@ function Pokeballs({changeScene}){
         {starter3Showing && <PokemonFusion pkmn1={myStarters[2].pkmn1} pkmn2={myStarters[2].pkmn2} /> }
       </PokemonOuter>
       {rivalReady && <Rival finalScreen={finalScreen}/>}
+      {rivalEntering && <RivalAppears/>}
     </ClicksOuter>
   );
 }
